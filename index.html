@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melbourne After Dark - Food Accessibility Report</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+    <!-- HEADER / HERO SECTION -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Melbourne After Dark</h1>
+            <h2>Food Accessibility in Melbourne's Inner & Outer Suburbs</h2>
+            <p class="hero-subtitle">A data-driven analysis of late-night food venue distribution and accessibility patterns across Melbourne's metropolitan area.</p>
+        </div>
+    </header>
+
+    <!-- SECTION 1: INTRODUCTION + MAP -->
+    <section class="section intro-section">
+        <div class="section-header">
+            <h3>Where Food Venues Are Located</h3>
+            <p class="section-description">
+                Melbourne's food landscape is highly concentrated in the CBD and inner suburbs. This map reveals the geographic clustering of food venues across the metropolitan area. Dense bubbles indicate high venue concentration, with clear patterns emerging between central business districts and suburban areas.
+            </p>
+        </div>
+        <div class="viz-container">
+            <div id="map"></div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: VENUE DENSITY BY AREA -->
+    <section class="section alt-bg">
+        <div class="section-header">
+            <h3>Food Venue Density Across Districts</h3>
+            <p class="section-description">
+                This visualization ranks CLUE small areas by their restaurant and cafe counts. The CBD dominates with the highest density, followed by inner suburbs like Carlton, Fitzroy, and South Yarra. Outer suburban areas show significantly lower counts, raising questions about food accessibility equity. The log scale helps reveal differences across the full range of densities.
+            </p>
+        </div>
+        <div class="viz-container">
+            <div id="density"></div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: FOOD TYPES -->
+    <section class="section">
+        <div class="section-header">
+            <h3>Types of Food Venues by Area</h3>
+            <p class="section-description">
+                Different food business types dominate different areas. Cafes are prevalent across most suburbs, while restaurants concentrate in inner-city and CBD locations. Takeaway services show more even distribution, serving suburban areas with quick meal options. This stacked bar chart is horizontally scrollable to explore all areas.
+            </p>
+        </div>
+        <div class="viz-container">
+            <div id="types"></div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: KEY INSIGHTS -->
+    <section class="section alt-bg insights-section">
+        <div class="section-header">
+            <h3>Key Insights</h3>
+            <p class="section-description">
+                Our analysis reveals critical patterns in Melbourne's food accessibility:
+            </p>
+        </div>
+        <div class="insights-grid">
+            <div class="insight-card">
+                <h4>🏙️ CBD Dominance</h4>
+                <p>The Melbourne CBD has 10x more food venues than average suburban areas, creating a stark accessibility divide.</p>
+            </div>
+            <div class="insight-card">
+                <h4>📍 Inner Suburb Clusters</h4>
+                <p>Carlton, Fitzroy, and South Yarra form secondary hubs of food activity, serving as dining destinations for surrounding areas.</p>
+            </div>
+            <div class="insight-card">
+                <h4>🚗 Suburban Challenge</h4>
+                <p>Outer suburbs rely heavily on fast food and takeaway options, with limited fine dining or specialist food venues.</p>
+            </div>
+            <div class="insight-card">
+                <h4>🌙 After Dark Access</h4>
+                <p>Late-night food accessibility is severely limited outside central areas, affecting shift workers and night-time travelers.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: DATA & METHODOLOGY -->
+    <section class="section">
+        <div class="section-header">
+            <h3>Data & Methodology</h3>
+        </div>
+        <div class="methodology-content">
+            <div class="methodology-item">
+                <h4>Data Sources</h4>
+                <ul>
+                    <li><strong>City of Melbourne:</strong> CLUE Small Area Business Data</li>
+                    <li><strong>Australian Bureau of Statistics:</strong> Census Year data (2007-2024)</li>
+                    <li><strong>Industry Classification:</strong> ANZSIC4 codes for business categorization</li>
+                </ul>
+            </div>
+            <div class="methodology-item">
+                <h4>Analysis Scope</h4>
+                <ul>
+                    <li>Geographic focus: Greater Melbourne metropolitan area</li>
+                    <li>Business types: Cafes, restaurants, takeaway services, bars & pubs</li>
+                    <li>Temporal coverage: Census years 2007-2024</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h5>Project Information</h5>
+                <p><strong>Title:</strong> Melbourne After Dark: Food Accessibility Analysis</p>
+                <p><strong>Semester:</strong> 1, 2026</p>
+                <p><strong>Course:</strong> FIT3179 - Data Visualisation</p>
+            </div>
+            <div class="footer-section">
+                <h5>AI Disclosure</h5>
+                <p>AI tools (Claude Haiku) were used for ideation, layout design, and code generation assistance in this project.</p>
+            </div>
+            <div class="footer-section">
+                <h5>Data Attribution</h5>
+                <p>Data sourced from City of Melbourne Open Data Portal and Australian Bureau of Statistics under Creative Commons License.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Melbourne After Dark Report. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Load Vega-Lite specifications from JSON files
+        async function loadVisualizations() {
+            try {
+                // Load Map
+                const mapSpec = await fetch('js/mapofFood').then(r => r.text()).then(t => JSON.parse(t));
+                vegaEmbed('#map', mapSpec);
+
+                // Load Density Chart
+                const densitySpec = await fetch('js/foodVenueDensity').then(r => r.text()).then(t => JSON.parse(t));
+                vegaEmbed('#density', densitySpec);
+
+                // Load Types Chart
+                const typesSpec = await fetch('js/typesofFood').then(r => r.text()).then(t => JSON.parse(t));
+                vegaEmbed('#types', typesSpec);
+            } catch (error) {
+                console.error('Error loading visualizations:', error);
+            }
+        }
+
+        // Load visualizations when page is ready
+        document.addEventListener('DOMContentLoaded', loadVisualizations);
+    </script>
+</body>
+</html>

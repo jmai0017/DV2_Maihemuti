@@ -1,0 +1,122 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Restaurant types by CLUE small area - stacked bar chart",
+  "width": 900,
+  "height": 500,
+  "background": "#f8f8f8",
+  "title": {
+    "text": "Restaurant Industry Types by Melbourne Area",
+    "color": "#333333",
+    "fontSize": 24,
+    "anchor": "middle",
+    "subtitle": "Stacked bar chart showing business categories",
+    "subtitleColor": "#666666"
+  },
+  "data": {
+    "url": "../data/restaurants.csv"
+  },
+  "transform": [
+    {
+      "filter": "datum['Industry (ANZSIC4) description'] === 'Cafes and Restaurants' || datum['Industry (ANZSIC4) description'] === 'Takeaway Food Services' || datum['Industry (ANZSIC4) description'] === 'Pubs, Taverns and Bars' || datum['Industry (ANZSIC4) description'] === 'Bakery Product Manufacturing (Non-factory based)' || test(datum['Industry (ANZSIC4) description'], /Food|Cafe|Bar|Restaurant|Takeaway|Pub/)"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "count"
+        }
+      ],
+      "groupby": ["CLUE small area", "Industry (ANZSIC4) description"]
+    },
+    {
+      "sort": [
+        {
+          "field": "count",
+          "order": "descending"
+        }
+      ]
+    }
+  ],
+  "mark": {
+    "type": "bar",
+    "cornerRadiusTopLeft": 3,
+    "cornerRadiusTopRight": 3
+  },
+  "encoding": {
+    "x": {
+      "field": "CLUE small area",
+      "type": "nominal",
+      "axis": {
+        "labelAngle": -45,
+        "labelColor": "#333333",
+        "titleColor": "#333333",
+        "labelLimit": 100
+      },
+      "title": "CLUE Small Area",
+      "scale": {
+        "bandPaddingInner": 0.1,
+      "paddingOuter": 0.05
+      }
+    },
+    "y": {
+      "field": "count",
+      "type": "quantitative",
+      "axis": {
+        "labelColor": "#333333",
+        "titleColor": "#333333",
+        "gridColor": "#dddddd"
+      },
+      "title": "Number of Restaurants",
+      "scale": {
+        "type": "linear"
+      }
+    },
+    "color": {
+      "field": "Industry (ANZSIC4) description",
+      "type": "nominal",
+      "scale": {
+        "scheme": "set3"
+      },
+      "legend": {
+        "title": "Industry Type",
+        "labelColor": "#333333",
+        "titleColor": "#333333",
+        "orient": "right",
+        "direction": "vertical"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "CLUE small area",
+        "type": "nominal",
+        "title": "Area"
+      },
+      {
+        "field": "Industry (ANZSIC4) description",
+        "type": "nominal",
+        "title": "Industry Type"
+      },
+      {
+        "field": "count",
+        "type": "quantitative",
+        "title": "Count"
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null,
+      "continuousWidth": 2000,
+      "continuousHeight": 500
+    },
+    "axis": {
+      "domainColor": "#cccccc",
+      "tickColor": "#cccccc"
+    },
+    "legend": {
+      "disable": false,
+      "orient": "bottom",
+      "direction": "horizontal"
+    }
+  }
+}

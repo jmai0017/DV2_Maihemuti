@@ -1,0 +1,347 @@
+/* ============================================
+   MELBOURNE AFTER DARK - STYLE SHEET
+   Dark Theme | Orange/Yellow Highlights
+   ============================================ */
+
+/* ROOT VARIABLES */
+:root {
+    --dark-bg: #0f0f0f;
+    --dark-surface: #1a1a1a;
+    --dark-border: #333333;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --accent-orange: #ff6600;
+    --accent-yellow: #ffcc00;
+    --accent-blue: #0099ff;
+    --spacing-unit: 16px;
+}
+
+/* ============================================
+   GLOBAL STYLES
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Arial', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    letter-spacing: 0.3px;
+}
+
+/* ============================================
+   HEADER / HERO SECTION
+   ============================================ */
+
+.hero {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    padding: calc(var(--spacing-unit) * 6) var(--spacing-unit);
+    text-align: center;
+    border-bottom: 3px solid var(--accent-orange);
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-content {
+    max-width: 900px;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-unit);
+    background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -1px;
+}
+
+.hero h2 {
+    font-size: 1.8rem;
+    font-weight: 400;
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+    color: var(--text-secondary);
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+/* ============================================
+   SECTIONS
+   ============================================ */
+
+.section {
+    padding: calc(var(--spacing-unit) * 4) var(--spacing-unit);
+    max-width: 1400px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--dark-border);
+}
+
+.section.alt-bg {
+    background-color: var(--dark-surface);
+}
+
+.section-header {
+    margin-bottom: calc(var(--spacing-unit) * 3);
+}
+
+.section-header h3 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-unit);
+    color: var(--accent-orange);
+}
+
+.section-description {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    max-width: 900px;
+}
+
+/* ============================================
+   VISUALIZATION CONTAINERS
+   ============================================ */
+
+.viz-container {
+    margin: calc(var(--spacing-unit) * 2) 0;
+    padding: var(--spacing-unit);
+    background-color: var(--dark-surface);
+    border: 1px solid var(--dark-border);
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+.viz-container > div {
+    display: flex;
+    justify-content: center;
+}
+
+/* ============================================
+   INSIGHTS GRID
+   ============================================ */
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: calc(var(--spacing-unit) * 2);
+    margin-top: calc(var(--spacing-unit) * 2);
+}
+
+.insight-card {
+    background-color: var(--dark-bg);
+    border: 2px solid var(--accent-orange);
+    border-radius: 8px;
+    padding: calc(var(--spacing-unit) * 1.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.insight-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(255, 102, 0, 0.2);
+}
+
+.insight-card h4 {
+    font-size: 1.3rem;
+    margin-bottom: var(--spacing-unit);
+    color: var(--accent-yellow);
+}
+
+.insight-card p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ============================================
+   METHODOLOGY SECTION
+   ============================================ */
+
+.methodology-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: calc(var(--spacing-unit) * 3);
+    margin-top: calc(var(--spacing-unit) * 2);
+}
+
+.methodology-item h4 {
+    font-size: 1.2rem;
+    color: var(--accent-orange);
+    margin-bottom: var(--spacing-unit);
+}
+
+.methodology-item ul {
+    list-style: none;
+    padding-left: var(--spacing-unit);
+}
+
+.methodology-item li {
+    margin-bottom: calc(var(--spacing-unit) * 0.75);
+    padding-left: var(--spacing-unit);
+    position: relative;
+    color: var(--text-secondary);
+}
+
+.methodology-item li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--accent-yellow);
+    font-weight: bold;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.footer {
+    background-color: var(--dark-surface);
+    border-top: 2px solid var(--accent-orange);
+    padding: calc(var(--spacing-unit) * 3) var(--spacing-unit);
+    margin-top: calc(var(--spacing-unit) * 4);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: calc(var(--spacing-unit) * 3);
+    max-width: 1400px;
+    margin: 0 auto calc(var(--spacing-unit) * 2);
+}
+
+.footer-section h5 {
+    font-size: 1.1rem;
+    color: var(--accent-orange);
+    margin-bottom: var(--spacing-unit);
+}
+
+.footer-section p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: calc(var(--spacing-unit) * 0.5);
+    line-height: 1.6;
+}
+
+.footer-section strong {
+    color: var(--text-primary);
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--dark-border);
+    padding-top: calc(var(--spacing-unit) * 2);
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+a {
+    color: var(--accent-orange);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--accent-yellow);
+    text-decoration: underline;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero h2 {
+        font-size: 1.3rem;
+    }
+
+    .section-header h3 {
+        font-size: 1.8rem;
+    }
+
+    .section {
+        padding: calc(var(--spacing-unit) * 2) var(--spacing-unit);
+    }
+
+    .insights-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .methodology-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        min-height: 40vh;
+        padding: calc(var(--spacing-unit) * 3) var(--spacing-unit);
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero h2 {
+        font-size: 1.1rem;
+    }
+
+    .section-header h3 {
+        font-size: 1.5rem;
+    }
+
+    .viz-container {
+        padding: calc(var(--spacing-unit) * 0.5);
+    }
+}
+
+/* ============================================
+   SCROLL BAR STYLING
+   ============================================ */
+
+::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--dark-surface);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-orange);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-yellow);
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "description": "Melbourne restaurant locations by year",
+
+  "width": 900,
+  "height": 700,
+
+  "background": "#f8f8f8",
+
+  "title": {
+    "text": "Melbourne Restaurant Distribution by Year",
+    "subtitle": "Restaurant locations across Melbourne with year filter",
+    "anchor": "middle",
+    "fontSize": 24,
+    "color": "#333333",
+    "subtitleColor": "#666666"
+  },
+
+  "projection": {
+    "type": "mercator",
+    "center": [144.9631, -37.8136],
+    "scale": 80000
+  },
+
+  "params": [
+    {
+      "name": "year_selection",
+      "value": 2007,
+      "bind": {
+        "input": "range",
+        "min": 2007,
+        "max": 2024,
+        "step": 1,
+        "name": "Census Year: "
+      }
+    }
+  ],
+
+  "data": {
+    "url": "../data/restaurants.csv"
+  },
+
+  "transform": [
+    {
+      "filter": "datum['Census year'] == year_selection"
+    }
+  ],
+
+  "mark": {
+    "type": "circle",
+    "opacity": 0.5,
+    "color": "#ff6600",
+    "stroke": "#ffffff",
+    "strokeWidth": 0.3
+  },
+
+  "encoding": {
+
+    "longitude": { "field": "Longitude", "type": "quantitative" },
+    "latitude": { "field": "Latitude", "type": "quantitative" },
+
+    "size": {
+      "aggregate": "count",
+      "type": "quantitative",
+      "scale": { "range": [10, 800] },
+      "title": "Restaurants"
+    },
+
+    "tooltip": [
+      { "field": "Trading name", "type": "nominal" },
+      { "field": "CLUE small area", "type": "nominal" },
+      { "field": "Census year", "type": "quantitative" }
+    ]
+  },
+
+  "config": {
+    "view": { "stroke": null }
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Total restaurant counts by CLUE small area for Census year 2024",
+  "width": 700,
+  "height": 450,
+  "background": "#f8f8f8",
+  "title": {
+    "text": "Food Venue Density Across Melbourne Activity Districts",
+    "color": "#333333",
+    "fontSize": 24,
+    "anchor": "middle",
+    "subtitle": "CLUE small area business counts",
+    "subtitleColor": "#666666"
+  },
+  "data": {
+    "url": "../data/restaurants.csv"
+  },
+  "transform": [
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "venue_count"
+        }
+      ],
+      "groupby": ["CLUE small area"]
+    }
+  ],
+  "mark": {
+    "type": "bar",
+    "cornerRadiusTopLeft": 5,
+    "cornerRadiusTopRight": 5
+  },
+  "encoding": {
+    "x": {
+      "field": "CLUE small area",
+      "type": "nominal",
+      "sort": "-venue_count",
+      "axis": {
+        "labelAngle": -35,
+        "labelColor": "#333333",
+        "titleColor": "#333333",
+        "labelLimit": 180
+      },
+      "title": "Suburbs"
+    },
+    "y": {
+      "field": "venue_count",
+      "type": "quantitative",
+      "scale": {
+        "type": "log"
+      },
+      "axis": {
+        "labelColor": "#333333",
+        "titleColor": "#333333",
+        "gridColor": "#dddddd"
+      },
+      "title": "Total Count (log scale)"
+    },
+    "color": {
+      "field": "venue_count",
+      "type": "quantitative",
+      "scale": {
+        "type": "linear",
+        "range": ["#ffe6cc", "#ff9933"]
+      },
+      "legend": {
+        "title": "Venue Density",
+        "labelColor": "#333333",
+        "titleColor": "#333333"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "CLUE small area",
+        "type": "nominal",
+        "title": "CLUE Small Area"
+      },
+      {
+        "field": "venue_count",
+        "type": "quantitative",
+        "title": "Total Count"
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domainColor": "#cccccc",
+      "tickColor": "#cccccc"
+    }
+  }
+}
