@@ -68,19 +68,19 @@
         </div>
         <div class="insights-grid">
             <div class="insight-card">
-                <h4>🏙️ CBD Dominance</h4>
+                <h4>CBD Dominance</h4>
                 <p>The Melbourne CBD has 10x more food venues than average suburban areas, creating a stark accessibility divide.</p>
             </div>
             <div class="insight-card">
-                <h4>📍 Inner Suburb Clusters</h4>
+                <h4>Inner Suburb Clusters</h4>
                 <p>Carlton, Fitzroy, and South Yarra form secondary hubs of food activity, serving as dining destinations for surrounding areas.</p>
             </div>
             <div class="insight-card">
-                <h4>🚗 Suburban Challenge</h4>
+                <h4>Suburban Challenge</h4>
                 <p>Outer suburbs rely heavily on fast food and takeaway options, with limited fine dining or specialist food venues.</p>
             </div>
             <div class="insight-card">
-                <h4>🌙 After Dark Access</h4>
+                <h4>After Dark Access</h4>
                 <p>Late-night food accessibility is severely limited outside central areas, affecting shift workers and night-time travelers.</p>
             </div>
         </div>
@@ -139,18 +139,27 @@
         async function loadVisualizations() {
             try {
                 // Load Map
-                const mapSpec = await fetch('js/mapofFood').then(r => r.text()).then(t => JSON.parse(t));
-                vegaEmbed('#map', mapSpec);
+                const mapResponse = await fetch('js/mapofFood.json');
+                if (!mapResponse.ok) throw new Error('Map data not found');
+                const mapSpec = await mapResponse.json();
+                vegaEmbed('#map', mapSpec).catch(e => console.error('Error rendering map:', e));
 
                 // Load Density Chart
-                const densitySpec = await fetch('js/foodVenueDensity').then(r => r.text()).then(t => JSON.parse(t));
-                vegaEmbed('#density', densitySpec);
+                const densityResponse = await fetch('js/foodVenueDensity.json');
+                if (!densityResponse.ok) throw new Error('Density data not found');
+                const densitySpec = await densityResponse.json();
+                vegaEmbed('#density', densitySpec).catch(e => console.error('Error rendering density:', e));
 
                 // Load Types Chart
-                const typesSpec = await fetch('js/typesofFood').then(r => r.text()).then(t => JSON.parse(t));
-                vegaEmbed('#types', typesSpec);
+                const typesResponse = await fetch('js/typesofFood.json');
+                if (!typesResponse.ok) throw new Error('Types data not found');
+                const typesSpec = await typesResponse.json();
+                vegaEmbed('#types', typesSpec).catch(e => console.error('Error rendering types:', e));
             } catch (error) {
                 console.error('Error loading visualizations:', error);
+                document.getElementById('map').innerHTML = '<p style="color: red;">Error loading map visualization</p>';
+                document.getElementById('density').innerHTML = '<p style="color: red;">Error loading density visualization</p>';
+                document.getElementById('types').innerHTML = '<p style="color: red;">Error loading types visualization</p>';
             }
         }
 

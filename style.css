@@ -5,14 +5,14 @@
 
 /* ROOT VARIABLES */
 :root {
-    --dark-bg: #0f0f0f;
-    --dark-surface: #1a1a1a;
-    --dark-border: #333333;
-    --text-primary: #ffffff;
-    --text-secondary: #cccccc;
+    --dark-bg: #f5f5f5;
+    --dark-surface: #ffffff;
+    --dark-border: #e0e0e0;
+    --text-primary: #1a1a1a;
+    --text-secondary: #555555;
     --accent-orange: #ff6600;
-    --accent-yellow: #ffcc00;
-    --accent-blue: #0099ff;
+    --accent-yellow: #ffaa00;
+    --accent-blue: #0066cc;
     --spacing-unit: 16px;
 }
 
@@ -43,7 +43,7 @@ body {
    ============================================ */
 
 .hero {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
     padding: calc(var(--spacing-unit) * 6) var(--spacing-unit);
     text-align: center;
     border-bottom: 3px solid var(--accent-orange);
@@ -146,11 +146,12 @@ body {
 }
 
 .insight-card {
-    background-color: var(--dark-bg);
+    background-color: #ffffff;
     border: 2px solid var(--accent-orange);
     border-radius: 8px;
     padding: calc(var(--spacing-unit) * 1.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .insight-card:hover {
@@ -334,7 +335,7 @@ a:hover {
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--dark-surface);
+    background: #f0f0f0;
 }
 
 ::-webkit-scrollbar-thumb {
