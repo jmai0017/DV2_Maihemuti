@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Melbourne After Dark - Food Accessibility Report</title>
+
     <link rel="stylesheet" href="style.css">
 
-    <!-- Vega libraries -->
+    <!-- Vega Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
@@ -14,133 +15,74 @@
 
 <body>
 
-    <!-- HEADER -->
+    <!-- HERO -->
     <header class="hero">
         <div class="hero-content">
             <h1>Melbourne After Dark</h1>
-            <h2>Food Accessibility in Melbourne's Inner & Outer Suburbs</h2>
+            <h2>Food Accessibility in Melbourne</h2>
             <p class="hero-subtitle">
-                A data-driven analysis of late-night food venue distribution and accessibility patterns across Melbourne's metropolitan area.
+                Data-driven analysis of food venue distribution across Melbourne suburbs.
             </p>
         </div>
     </header>
 
-    <!-- SECTION 1 -->
-    <section class="section intro-section">
+    <!-- MAP -->
+    <section class="section">
         <div class="section-header">
-            <h3>Where Food Venues Are Located</h3>
-            <p class="section-description">
-                Melbourne's food landscape is highly concentrated in the CBD and inner suburbs.
-            </p>
+            <h3>Food Venue Map</h3>
+            <p>Distribution of food venues across Melbourne.</p>
         </div>
-        <div class="viz-container">
-            <div id="map"></div>
-        </div>
+        <div id="map"></div>
     </section>
 
-    <!-- SECTION 2 -->
+    <!-- DENSITY -->
     <section class="section alt-bg">
         <div class="section-header">
-            <h3>Food Venue Density Across Districts</h3>
-            <p class="section-description">
-                This chart shows venue concentration across Melbourne suburbs.
-            </p>
+            <h3>Venue Density</h3>
+            <p>Comparison of food venue density across suburbs.</p>
         </div>
-        <div class="viz-container">
-            <div id="density"></div>
-        </div>
+        <div id="density"></div>
     </section>
 
-    <!-- SECTION 3 -->
+    <!-- TYPES -->
     <section class="section">
         <div class="section-header">
-            <h3>Types of Food Venues by Area</h3>
-            <p class="section-description">
-                Breakdown of cafes, restaurants, and takeaway venues across suburbs.
-            </p>
+            <h3>Types of Food Venues</h3>
+            <p>Breakdown of cafes, restaurants, and takeaway stores.</p>
         </div>
-        <div class="viz-container">
-            <div id="types"></div>
-        </div>
+        <div id="types"></div>
     </section>
 
-    <!-- SECTION 4 -->
-    <section class="section alt-bg insights-section">
-        <div class="section-header">
-            <h3>Key Insights</h3>
-        </div>
-
-        <div class="insights-grid">
-            <div class="insight-card">
-                <h4>CBD Dominance</h4>
-                <p>CBD has significantly higher food venue density.</p>
-            </div>
-            <div class="insight-card">
-                <h4>Inner Suburb Clusters</h4>
-                <p>Fitzroy, Carlton, South Yarra act as secondary hubs.</p>
-            </div>
-            <div class="insight-card">
-                <h4>Suburban Gap</h4>
-                <p>Outer suburbs have fewer dining options.</p>
-            </div>
-            <div class="insight-card">
-                <h4>Night Access</h4>
-                <p>Late-night food access drops outside inner Melbourne.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 5 -->
-    <section class="section">
-        <div class="section-header">
-            <h3>Data & Methodology</h3>
-        </div>
-
-        <div class="methodology-content">
-            <div class="methodology-item">
-                <h4>Data Sources</h4>
-                <ul>
-                    <li>City of Melbourne CLUE dataset</li>
-                    <li>ABS Census data</li>
-                </ul>
-            </div>
-
-            <div class="methodology-item">
-                <h4>Scope</h4>
-                <ul>
-                    <li>Greater Melbourne region</li>
-                    <li>Cafes, restaurants, takeaway venues</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <p>&copy; 2026 Melbourne After Dark Report</p>
-    </footer>
-
-    <!-- VISUALISATIONS SCRIPT -->
+    <!-- SCRIPT -->
     <script>
         async function loadVisualizations() {
             try {
 
-                // ✅ FIXED FILE PATHS BELOW
+                // ✅ LOCAL FILE PATHS (THIS IS THE CORRECT WAY)
 
-                const mapResponse = await fetch('js/mapofFood.json');
-                const mapSpec = await mapResponse.json();
+                const mapSpec = await fetch('js/mapofFood.json').then(r => {
+                    if (!r.ok) throw new Error("mapofFood.json failed");
+                    return r.json();
+                });
+
                 vegaEmbed('#map', mapSpec);
 
-                const densityResponse = await fetch('js/foodVenueDensity.json');
-                const densitySpec = await densityResponse.json();
+                const densitySpec = await fetch('js/foodVenueDensity.json').then(r => {
+                    if (!r.ok) throw new Error("foodVenueDensity.json failed");
+                    return r.json();
+                });
+
                 vegaEmbed('#density', densitySpec);
 
-                const typesResponse = await fetch('js/typesofFood.json');
-                const typesSpec = await typesResponse.json();
+                const typesSpec = await fetch('js/typesofFood.json').then(r => {
+                    if (!r.ok) throw new Error("typesofFood.json failed");
+                    return r.json();
+                });
+
                 vegaEmbed('#types', typesSpec);
 
-            } catch (error) {
-                console.error('Error loading visualizations:', error);
+            } catch (err) {
+                console.error("Visualization loading error:", err);
             }
         }
 
