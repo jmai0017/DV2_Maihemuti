@@ -139,27 +139,33 @@
         async function loadVisualizations() {
             try {
                 // Load Map
-                const mapResponse = await fetch('js/mapofFood.json');
-                if (!mapResponse.ok) throw new Error('Map data not found');
+                const mapResponse = await fetch('js/mapofFood');
+                if (!mapResponse.ok) {
+                    console.error('Map fetch failed:', mapResponse.status);
+                    throw new Error('Map data not found (status: ' + mapResponse.status + ')');
+                }
                 const mapSpec = await mapResponse.json();
                 vegaEmbed('#map', mapSpec).catch(e => console.error('Error rendering map:', e));
 
                 // Load Density Chart
-                const densityResponse = await fetch('js/foodVenueDensity.json');
-                if (!densityResponse.ok) throw new Error('Density data not found');
+                const densityResponse = await fetch('js/foodVenueDensity');
+                if (!densityResponse.ok) {
+                    console.error('Density fetch failed:', densityResponse.status);
+                    throw new Error('Density data not found (status: ' + densityResponse.status + ')');
+                }
                 const densitySpec = await densityResponse.json();
                 vegaEmbed('#density', densitySpec).catch(e => console.error('Error rendering density:', e));
 
                 // Load Types Chart
-                const typesResponse = await fetch('js/typesofFood.json');
-                if (!typesResponse.ok) throw new Error('Types data not found');
+                const typesResponse = await fetch('js/typesofFood');
+                if (!typesResponse.ok) {
+                    console.error('Types fetch failed:', typesResponse.status);
+                    throw new Error('Types data not found (status: ' + typesResponse.status + ')');
+                }
                 const typesSpec = await typesResponse.json();
                 vegaEmbed('#types', typesSpec).catch(e => console.error('Error rendering types:', e));
             } catch (error) {
                 console.error('Error loading visualizations:', error);
-                document.getElementById('map').innerHTML = '<p style="color: red;">Error loading map visualization</p>';
-                document.getElementById('density').innerHTML = '<p style="color: red;">Error loading density visualization</p>';
-                document.getElementById('types').innerHTML = '<p style="color: red;">Error loading types visualization</p>';
             }
         }
 
