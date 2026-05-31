@@ -1,0 +1,36 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Food Venues by Size",
+    "subtitle": "Distribution based on Seating Capacity (2024)",
+    "fontSize": 18,
+    "anchor": "start"
+  },
+  "width": 500,
+  "height": 500,
+  "data": {
+    "values": [
+      {"Type": "Small (1-20 seats)", "Percentage": 42, "Count": 27600},
+      {"Type": "Medium (21-80 seats)", "Percentage": 38, "Count": 25000},
+      {"Type": "Large (81+ seats)", "Percentage": 20, "Count": 13200}
+    ]
+  },
+  "mark": {"type": "arc", "innerRadius": 90},
+  "encoding": {
+    "theta": {"field": "Percentage", "type": "quantitative"},
+    "color": {
+      "field": "Type",
+      "type": "nominal",
+      "scale": {"scheme": "tableau10"},
+      "legend": {"title": "Venue Size"}
+    },
+    "tooltip": [
+      {"field": "Type"},
+      {"field": "Percentage", "format": ".0f", "title": "Percentage (%)"},
+      {"field": "Count", "format": ",", "title": "Number of Venues"}
+    ]
+  },
+  "config": {
+    "view": {"stroke": null}
+  }
+}

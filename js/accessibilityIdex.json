@@ -1,0 +1,47 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Accessibility Index by Distance from Melbourne CBD",
+    "subtitle": "Combined Food Venues + Public Transport Access | CBD = 10/10",
+    "fontSize": 18,
+    "anchor": "start"
+  },
+  "width": "container",
+  "height": 420,
+  "data": {
+    "values": [
+      {"Area": "CBD (0-2km)", "Score": 35572.6, "Normalized": 10.0, "Food": 59161, "Stops": 190},
+      {"Area": "Inner (2-5km)", "Score": 3932.0, "Normalized": 4.1, "Food": 6394, "Stops": 239},
+      {"Area": "Middle (5-10km)", "Score": 377.2, "Normalized": 1.1, "Food": 274, "Stops": 532},
+      {"Area": "Outer (10-20km)", "Score": 302.4, "Normalized": 0.9, "Food": 0, "Stops": 756}
+    ]
+  },
+  "layer": [
+    {
+      "mark": {"type": "bar", "cornerRadius": 6},
+      "encoding": {
+        "x": {
+          "field": "Area", 
+          "type": "ordinal", 
+          "title": "Distance from CBD",
+          "axis": {"labelAngle": 0, "labelFontSize": 12}
+        },
+        "y": {
+          "field": "Normalized", 
+          "type": "quantitative", 
+          "title": "Accessibility Score (out of 10)",
+          "scale": {"domain": [0, 10]}
+        },
+        "color": {"field": "Area", "type": "nominal", "scale": {"scheme": "blues"}}
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "center", "baseline": "middle", "fontSize": 14, "fontWeight": "bold"},
+      "encoding": {
+        "x": {"field": "Area", "type": "ordinal"},
+        "y": {"field": "Normalized", "type": "quantitative"},
+        "text": {"field": "Normalized", "format": ".1f"}
+      }
+    }
+  ]
+}

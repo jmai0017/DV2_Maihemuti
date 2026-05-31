@@ -1,0 +1,35 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Food Type Breakdown by District",
+    "subtitle": "Inner suburbs offer more variety | Outer areas rely on takeaway",
+    "fontSize": 18,
+    "anchor": "start"
+  },
+  "width": "container",
+  "height": 420,
+  "data": {
+    "values": [
+      {"District": "Melbourne (CBD)", "Cafes & Restaurants": 65, "Takeaway": 25, "Bars & Pubs": 10},
+      {"District": "Carlton", "Cafes & Restaurants": 70, "Takeaway": 20, "Bars & Pubs": 10},
+      {"District": "Southbank / Docklands", "Cafes & Restaurants": 58, "Takeaway": 32, "Bars & Pubs": 10},
+      {"District": "North Melbourne", "Cafes & Restaurants": 52, "Takeaway": 38, "Bars & Pubs": 10},
+      {"District": "Inner Suburbs", "Cafes & Restaurants": 48, "Takeaway": 42, "Bars & Pubs": 10},
+      {"District": "Outer Suburbs", "Cafes & Restaurants": 25, "Takeaway": 70, "Bars & Pubs": 5}
+    ]
+  },
+  "mark": "bar",
+  "encoding": {
+    "x": {"field": "District", "type": "ordinal", "axis": {"labelAngle": 0}},
+    "y": {"field": "value", "type": "quantitative", "title": "Percentage of Venues"},
+    "color": {
+      "field": "type",
+      "type": "nominal",
+      "title": "Venue Type",
+      "scale": {"scheme": "category10"}
+    }
+  },
+  "transform": [
+    {"fold": ["Cafes & Restaurants", "Takeaway", "Bars & Pubs"], "as": ["type", "value"]}
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Distance from CBD vs Food Venue Counts",
+    "subtitle": "A sharp decline in food options as you move outward from Melbourne's centre",
+    "fontSize": 20,
+    "fontWeight": "bold",
+    "anchor": "start",
+    "offset": 15,
+    "subtitleFontSize": 14,
+    "subtitleColor": "#666"
+  },
+  "data": {"url": "data/combined_13_suburbs.csv"},
+  "width": "container",
+  "height": 500,
+  "mark": {
+    "type": "line",
+    "point": {
+      "size": 120,
+      "filled": true,
+      "fill": "white",
+      "stroke": "#ff6b35",
+      "strokeWidth": 3
+    },
+    "color": "#ff6b35",
+    "strokeWidth": 4,
+    "opacity": 0.9
+  },
+  "encoding": {
+    "x": {
+      "field": "distance_km",
+      "type": "quantitative",
+      "title": "Distance from Melbourne CBD (km)",
+      "scale": {"zero": false},
+      "axis": {
+        "grid": true,
+        "tickCount": 10,
+        "titleFontSize": 14,
+        "labelFontSize": 12,
+        "titleFontWeight": "bold"
+      }
+    },
+    "y": {
+      "field": "venue_count",
+      "type": "quantitative",
+      "title": "Number of Food Venues",
+      "scale": {"zero": true},
+      "axis": {
+        "grid": true,
+        "titleFontSize": 14,
+        "labelFontSize": 12,
+        "titleFontWeight": "bold",
+        "format": "d"
+      }
+    },
+    "order": {"field": "distance_km"},
+    "tooltip": [
+      {"field": "CLUE_Area", "type": "nominal", "title": "Area"},
+      {"field": "Suburb", "type": "nominal", "title": "Suburb"},
+      {"field": "distance_km", "type": "quantitative", "format": ".1f", "title": "Distance (km)"},
+      {"field": "venue_count", "type": "quantitative", "format": ",.0f", "title": "Venue Count"}
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null,
+      "continuousWidth": 800,
+      "continuousHeight": 500
+    },
+    "background": "white",
+    "padding": 20
+  }
+}

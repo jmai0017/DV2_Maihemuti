@@ -1,0 +1,90 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "Spatial Distribution of Food Venues",
+    "subtitle": "Choropleth map showing venue density by CLUE small area",
+    "fontSize": 22,
+    "anchor": "middle"
+  },
+
+  "width": 900,
+  "height": 700,
+
+  "projection": {
+    "type": "mercator",
+    "center": [144.9631, -37.8136],
+    "scale": 650000
+  },
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/anthwri/GeoJson-Data/master/suburb-2-vic.geojson",
+    "format": {
+      "type": "json",
+      "property": "features"
+    }
+  },
+
+  "transform": [
+    {
+      "lookup": "properties.vic_loca_2",
+      "from": {
+        "data": {
+          "url": "data/restaurants.csv"
+        },
+        "transform": [
+          {
+            "filter": "datum['Census year'] == 2024"
+          },
+          {
+            "aggregate": [
+              {
+                "op": "count",
+                "as": "venue_count"
+              }
+            ],
+            "groupby": ["CLUE small area"]
+          }
+        ],
+        "key": "CLUE small area",
+        "fields": ["venue_count"]
+      }
+    }
+  ],
+
+  "mark": {
+    "type": "geoshape",
+    "stroke": "white",
+    "strokeWidth": 0.5
+  },
+
+  "encoding": {
+    "color": {
+      "field": "venue_count",
+      "type": "quantitative",
+      "scale": {
+        "scheme": "orangered"
+      },
+      "legend": {
+        "title": "Venue Density"
+      }
+    },
+
+    "tooltip": [
+      {
+        "field": "properties.vic_loca_2",
+        "title": "Suburb"
+      },
+      {
+        "field": "venue_count",
+        "title": "Number of Venues"
+      }
+    ]
+  },
+
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}

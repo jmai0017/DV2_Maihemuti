@@ -3,149 +3,378 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Melbourne After Dark - Food Accessibility Report</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Melbourne After Dark – Late-Night Food Accessibility</title>
 
     <!-- Vega libraries -->
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-</head>
 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fc;
+            color: #1a1e2b;
+            line-height: 1.6;
+        }
+
+        /* Hero header */
+        .hero {
+            background: linear-gradient(135deg, #0b1120 0%, #19233c 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid #ffb347;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero h2 {
+            font-size: 1.4rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            max-width: 750px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            opacity: 0.85;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 2rem 1rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section-header {
+            margin-bottom: 1.4rem;
+            border-left: 5px solid #ffb347;
+            padding-left: 1.3rem;
+        }
+
+        .section-header h3 {
+            font-size: 1.85rem;
+            font-weight: 600;
+            color: #1e2a3e;
+            margin-bottom: 0.4rem;
+        }
+
+        .section-description {
+            font-size: 1.05rem;
+            color: #4a5568;
+            max-width: 85%;
+        }
+
+        /* Chart cards */
+        .viz-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            padding: 1.8rem;
+            margin-bottom: 2.5rem;
+            transition: transform 0.25s ease;
+        }
+
+        .viz-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .viz-title {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: #2d3748;
+        }
+
+        .viz-sub {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 1.4rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.7rem;
+        }
+
+        .chart-container {
+            min-height: 500px;
+            width: 100%;
+        }
+
+        /* Insight row */
+        .insight-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            margin: 2.5rem 0 1.5rem;
+        }
+
+        .insight-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.4rem;
+            flex: 1 1 280px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            border: 1px solid #e9edf2;
+        }
+
+        .insight-card h4 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #1e2a3e;
+            margin-bottom: 0.6rem;
+        }
+
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 2.5rem 2rem;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            border-top: 1px solid #1e293b;
+        }
+
+        footer a {
+            color: #facc15;
+            text-decoration: none;
+        }
+
+        .error-placeholder {
+            background: #fff5f5;
+            border: 1px solid #feb2b2;
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            color: #c53030;
+        }
+
+        @media (max-width: 900px) {
+            .container { padding: 1rem; }
+            .hero h1 { font-size: 2.4rem; }
+            .section-header h3 { font-size: 1.65rem; }
+        }
+    </style>
+</head>
 <body>
 
-    <!-- HEADER -->
-    <header class="hero">
-        <div class="hero-content">
-            <h1>Melbourne After Dark</h1>
-            <h2>Food Accessibility in Melbourne's Inner & Outer Suburbs</h2>
-            <p class="hero-subtitle">
-                A data-driven analysis of late-night food venue distribution and accessibility patterns across Melbourne's metropolitan area.
-            </p>
-        </div>
-    </header>
+<div class="hero">
+    <h1>Melbourne After Dark</h1>
+    <h2>Mapping Late-Night Food Accessibility</h2>
+    <p class="hero-subtitle">
+        An analysis of how food venue availability, transport access, and pedestrian activity vary across Melbourne, 
+        with a focus on late-night equity between the CBD, inner suburbs, and outer areas.
+    </p>
+</div>
 
-    <!-- SECTION 1 -->
-    <section class="section intro-section">
+<div class="container">
+
+    <!-- Overview -->
+    <div class="section">
         <div class="section-header">
-            <h3>Where Food Venues Are Located</h3>
-            <p class="section-description">
-                Melbourne's food landscape is highly concentrated in the CBD and inner suburbs.
-            </p>
+            <h3>Overview: Centralised Food Landscape</h3>
+            <p class="section-description">Melbourne's food venues are heavily concentrated near the CBD. This report examines the spatial patterns, venue types, transport links, and late-night activity.</p>
         </div>
-        <div class="viz-container">
-            <div id="map"></div>
+        
+        <div class="viz-card">
+            <div class="viz-title">Spatial Distribution of Food Venues</div>
+            <div class="viz-sub">Map showing restaurant locations across Melbourne (2024 data)</div>
+            <div id="mapofFood" class="chart-container"></div>
         </div>
-    </section>
+    </div>
 
-    <!-- SECTION 2 -->
-    <section class="section alt-bg">
+    <!-- Density -->
+    <div class="section">
         <div class="section-header">
-            <h3>Food Venue Density Across Districts</h3>
-            <p class="section-description">
-                This chart shows venue concentration across Melbourne suburbs.
-            </p>
+            <h3>Food Venue Density by Area</h3>
+            <p class="section-description">The number of food venues drops sharply as distance from the CBD increases.</p>
         </div>
-        <div class="viz-container">
-            <div id="density"></div>
+        
+        <div class="viz-card">
+            <div class="viz-title">Food Venue Density Across Melbourne Activity Districts</div>
+            <div class="viz-sub">Ranked bar chart by CLUE small area</div>
+            <div id="foodVenueDensity" class="chart-container"></div>
         </div>
-    </section>
 
-    <!-- SECTION 3 -->
-    <section class="section">
+        <div class="viz-card">
+            <div class="viz-title">Distance from CBD vs Food Venue Count</div>
+            <div class="viz-sub">Trend showing sharp decline in venue availability further from the centre</div>
+            <div id="disCBD" class="chart-container"></div>
+        </div>
+    </div>
+
+    <!-- Venue characteristics -->
+    <div class="section">
         <div class="section-header">
-            <h3>Types of Food Venues by Area</h3>
-            <p class="section-description">
-                Breakdown of cafes, restaurants, and takeaway venues across suburbs.
-            </p>
+            <h3>Venue Characteristics</h3>
+            <p class="section-description">Breakdown of food venue types and sizes across districts.</p>
         </div>
-        <div class="viz-container">
-            <div id="types"></div>
+        
+        <div class="viz-card">
+            <div class="viz-title">Food Type Breakdown by District</div>
+            <div class="viz-sub">Proportion of cafes/restaurants, takeaway, and bars/pubs</div>
+            <div id="FoodTypeBreakdown" class="chart-container"></div>
         </div>
-    </section>
 
-    <!-- SECTION 4 -->
-    <section class="section alt-bg insights-section">
+        <div class="viz-card">
+            <div class="viz-title">Food Venues by Size</div>
+            <div class="viz-sub">Distribution based on seating capacity (2024)</div>
+            <div id="FoodVenuesBySize" class="chart-container"></div>
+        </div>
+
+        <div class="viz-card">
+            <div class="viz-title">Types of Food Venues by Melbourne District</div>
+            <div class="viz-sub">Proportional distribution of major venue categories</div>
+            <div id="typesofFood" class="chart-container"></div>
+        </div>
+    </div>
+
+    <!-- Activity patterns -->
+    <div class="section">
         <div class="section-header">
-            <h3>Key Insights</h3>
+            <h3>Late-Night Activity Patterns</h3>
+            <p class="section-description">Pedestrian movement reveals when and where Melbourne is active after dark.</p>
+        </div>
+        
+        <div class="viz-card">
+            <div class="viz-title">Late-Night Pedestrian Activity (6pm → 2am)</div>
+            <div class="viz-sub">Trends by hour in different parts of the city</div>
+            <div id="latenightActivityTrends" class="chart-container"></div>
         </div>
 
-        <div class="insights-grid">
-            <div class="insight-card">
-                <h4>CBD Dominance</h4>
-                <p>CBD has significantly higher food venue density.</p>
-            </div>
-            <div class="insight-card">
-                <h4>Inner Suburb Clusters</h4>
-                <p>Fitzroy, Carlton, South Yarra act as secondary hubs.</p>
-            </div>
-            <div class="insight-card">
-                <h4>Suburban Gap</h4>
-                <p>Outer suburbs have fewer dining options.</p>
-            </div>
-            <div class="insight-card">
-                <h4>Night Access</h4>
-                <p>Late-night food access drops outside inner Melbourne.</p>
-            </div>
+        <div class="viz-card">
+            <div class="viz-title">Pedestrian Activity by Hour and Day</div>
+            <div class="viz-sub">Heatmap showing peak activity periods, especially Friday and Saturday nights</div>
+            <div id="pedestrianActivity" class="chart-container"></div>
         </div>
-    </section>
+    </div>
 
-    <!-- SECTION 5 -->
-    <section class="section">
+    <!-- Transport and accessibility -->
+    <div class="section">
         <div class="section-header">
-            <h3>Data & Methodology</h3>
+            <h3>Transport and Accessibility</h3>
+            <p class="section-description">How public transport intersects with food availability for late-night access.</p>
+        </div>
+        
+        <div class="viz-card">
+            <div class="viz-title">Train Stops vs Food Venues</div>
+            <div class="viz-sub">Metro train stops (blue) overlaid with food venues (orange)</div>
+            <div id="transportFoodMap" class="chart-container"></div>
         </div>
 
-        <div class="methodology-content">
-            <div class="methodology-item">
-                <h4>Data Sources</h4>
-                <ul>
-                    <li>City of Melbourne CLUE dataset</li>
-                    <li>ABS Census data</li>
-                </ul>
-            </div>
-
-            <div class="methodology-item">
-                <h4>Scope</h4>
-                <ul>
-                    <li>Greater Melbourne region</li>
-                    <li>Cafes, restaurants, takeaway venues</li>
-                </ul>
-            </div>
+        <div class="viz-card">
+            <div class="viz-title">Accessibility Index by Distance from Melbourne CBD</div>
+            <div class="viz-sub">Combined score of food venues and public transport access (CBD = 10/10)</div>
+            <div id="accessibilityIdex" class="chart-container"></div>
         </div>
-    </section>
+    </div>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <p>&copy; 2026 Melbourne After Dark Report</p>
-    </footer>
+    <!-- Key insights -->
+    <div class="insight-row">
+        <div class="insight-card">
+            <h4>CBD Dominance</h4>
+            <p>The central city maintains significantly higher venue density and late-night activity compared to outer suburbs.</p>
+        </div>
+        <div class="insight-card">
+            <h4>Takeaway Reliance</h4>
+            <p>Outer suburbs have fewer sit-down options and depend heavily on takeaway services after evening hours.</p>
+        </div>
+        <div class="insight-card">
+            <h4>Transport Gaps</h4>
+            <p>Many food-dense areas lack adequate late-night public transport, limiting accessibility for residents.</p>
+        </div>
+        <div class="insight-card">
+            <h4>Spatial Inequality</h4>
+            <p>Accessibility decreases rapidly beyond 5km from the CBD, highlighting urban planning challenges.</p>
+        </div>
+    </div>
 
-    <!-- VISUALISATIONS SCRIPT -->
-    <script>
-        async function loadVisualizations() {
-            try {
+    <!-- Data sources -->
+    <div style="background: #eef2f6; border-radius: 20px; padding: 2rem; margin-top: 2rem;">
+        <h4 style="margin-bottom: 1rem;">Data Sources and Methodology</h4>
+        <p style="font-size: 0.95rem; color: #334155;">
+            City of Melbourne CLUE business dataset (2024), ABS Census data, Pedestrian Counting System, and PTV public transport data. 
+            Accessibility Index combines food venue density and transport access. All visualisations built with Vega-Lite.
+        </p>
+        <p style="font-size: 0.9rem; margin-top: 1rem; color: #64748b;">
+            Files used: accessibilityIdex.json, disCBD.json, Food Type Breakdown by District.json, Food Venues by Size.json, 
+            foodVenueDensity.json, latenightActivityTrends.json, mapofFood.json, pedestrianActivity.json, 
+            SpatialDistribution.json, transportFoodMap.json, typeofFood.json
+        </p>
+    </div>
 
-                // ✅ FIXED FILE PATHS BELOW
+</div>
 
-                const mapResponse = await fetch('js/mapofFood.json');
-                const mapSpec = await mapResponse.json();
-                vegaEmbed('#map', mapSpec);
+<footer>
+    <p>© 2026 Melbourne After Dark – Urban Food Accessibility Analysis | Data: City of Melbourne CLUE, ABS, PTV | Designed for academic visualisation project</p>
+</footer>
 
-                const densityResponse = await fetch('js/foodVenueDensity.json');
-                const densitySpec = await densityResponse.json();
-                vegaEmbed('#density', densitySpec);
+<script>
+    (function() {
+        const charts = [
+            { id: "mapofFood", file: "js/mapofFood.json", name: "Spatial Distribution Map" },
+            { id: "foodVenueDensity", file: "js/foodVenueDensity.json", name: "Food Venue Density" },
+            { id: "disCBD", file: "js/disCBD.json", name: "Distance from CBD" },
+            { id: "FoodTypeBreakdown", file: "js/Food Type Breakdown by District.json", name: "Food Type Breakdown" },
+            { id: "FoodVenuesBySize", file: "js/Food Venues by Size.json", name: "Food Venues by Size" },
+            { id: "typesofFood", file: "js/typesofFood.json", name: "Types of Food" },
+            { id: "latenightActivityTrends", file: "js/latenightActivityTrends.json", name: "Late Night Activity Trends" },
+            { id: "pedestrianActivity", file: "js/pedestrianActivity.json", name: "Pedestrian Activity Heatmap" },
+            { id: "transportFoodMap", file: "js/transportFoodMap.json", name: "Transport Food Map" },
+            { id: "accessibilityIdex", file: "js/accessibilityIdex.json", name: "Accessibility Index" }
+        ];
 
-                const typesResponse = await fetch('js/typesofFood.json');
-                const typesSpec = await typesResponse.json();
-                vegaEmbed('#types', typesSpec);
-
-            } catch (error) {
-                console.error('Error loading visualizations:', error);
+        async function loadAllCharts() {
+            for (const chart of charts) {
+                const container = document.getElementById(chart.id);
+                if (!container) {
+                    console.warn(`Container #${chart.id} not found`);
+                    continue;
+                }
+                try {
+                    const response = await fetch(chart.file);
+                    if (!response.ok) throw new Error(`File not found: ${chart.file}`);
+                    const spec = await response.json();
+                    await vegaEmbed(`#${chart.id}`, spec, { 
+                        renderer: "svg", 
+                        actions: { export: true, source: false, editor: false }
+                    });
+                    console.log(`Loaded: ${chart.name}`);
+                } catch (err) {
+                    console.error(`Failed to load ${chart.name}:`, err);
+                    container.innerHTML = `
+                        <div class="error-placeholder">
+                            <strong>Could not load visualisation</strong><br>
+                            ${chart.name}<br>
+                            <span style="font-size:0.85rem;">File: ${chart.file}</span>
+                        </div>
+                    `;
+                }
             }
         }
 
-        document.addEventListener('DOMContentLoaded', loadVisualizations);
-    </script>
-
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", loadAllCharts);
+        } else {
+            loadAllCharts();
+        }
+    })();
+</script>
 </body>
 </html>

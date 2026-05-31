@@ -1,0 +1,50 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Train Stops vs Food Venues",
+    "subtitle": "Blue = Metro Train Stops | Orange = Food Venues",
+    "fontSize": 18,
+    "anchor": "start"
+  },
+  "width": "container",
+  "height": 650,
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/tonywr71/GeoJson-Data/master/suburb-2-vic.geojson",
+        "format": {"type": "json", "property": "features"}
+      },
+      "mark": {"type": "geoshape", "fill": "#f0f0f0", "stroke": "#ddd"}
+    },
+    {
+      "data": { 
+        "url": "data/public_transport_stops.geojson", 
+        "format": {"type": "json", "property": "features"} 
+      },
+      "transform": [
+        {"filter": "datum.properties.MODE === 'METRO TRAIN'"}
+      ],
+      "mark": {"type": "point", "size": 22, "opacity": 0.9},
+      "encoding": {
+        "longitude": {"field": "geometry.coordinates[0]", "type": "quantitative"},
+        "latitude": {"field": "geometry.coordinates[1]", "type": "quantitative"},
+        "color": {"value": "#1f77b4"}
+      }
+    },
+    {
+      "data": { "url": "data/restaurants_clean.csv" },
+      "mark": {"type": "circle", "opacity": 0.7},
+      "encoding": {
+        "longitude": {"field": "Longitude", "type": "quantitative"},
+        "latitude": {"field": "Latitude", "type": "quantitative"},
+        "size": {"value": 55},
+        "color": {"value": "#ff6600"}
+      }
+    }
+  ],
+  "projection": {
+    "type": "mercator",
+    "center": [144.96, -37.81],
+    "scale": 52000
+  }
+}

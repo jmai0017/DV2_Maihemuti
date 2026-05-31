@@ -1,0 +1,109 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "description": "Proportion of food venue types by CLUE small area",
+
+  "width": 900,
+  "height": 500,
+  "background": "#f8f8f8",
+
+  "title": {
+    "text": "Types of Food Venues by Melbourne District",
+    "fontSize": 24,
+    "anchor": "middle",
+    "subtitle": "Proportional distribution of cafes, restaurants, bars, and takeaway"
+  },
+
+  "data": {
+    "url": "data/restaurants.csv"
+  },
+
+  "transform": [
+    {
+      "filter": "datum['Industry (ANZSIC4) description'] === 'Cafes and Restaurants' || datum['Industry (ANZSIC4) description'] === 'Takeaway Food Services' || datum['Industry (ANZSIC4) description'] === 'Pubs, Taverns and Bars'"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "count"
+        }
+      ],
+      "groupby": [
+        "CLUE small area",
+        "Industry (ANZSIC4) description"
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "count",
+          "as": "total"
+        }
+      ],
+      "groupby": ["CLUE small area"]
+    },
+    {
+      "calculate": "datum.count / datum.total",
+      "as": "proportion"
+    }
+  ],
+
+  "mark": {
+    "type": "bar"
+  },
+
+  "encoding": {
+
+    "x": {
+      "field": "CLUE small area",
+      "type": "nominal",
+      "axis": {
+        "labelAngle": -45
+      }
+    },
+
+    "y": {
+      "field": "proportion",
+      "type": "quantitative",
+      "axis": {
+        "title": "Proportion of Venue Types",
+        "format": "%"
+      }
+    },
+
+    "color": {
+      "field": "Industry (ANZSIC4) description",
+      "type": "nominal",
+      "scale": {
+        "scheme": "set2"
+      },
+      "legend": {
+        "title": "Food Type"
+      }
+    },
+
+    "tooltip": [
+      {
+        "field": "CLUE small area",
+        "title": "Area"
+      },
+      {
+        "field": "Industry (ANZSIC4) description",
+        "title": "Type"
+      },
+      {
+        "field": "proportion",
+        "title": "Share",
+        "format": ".1%"
+      }
+    ]
+  },
+
+  "config": {
+    "view": {
+      "stroke": null
+    }
+  }
+}

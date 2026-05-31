@@ -1,0 +1,48 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Pedestrian Activity by Hour and Day",
+    "subtitle": "Friday and Saturday nights dominate Melbourne's nightlife",
+    "fontSize": 18,
+    "anchor": "start"
+  },
+  "data": { "url": "data/pedestrian_heatmap.csv" },
+  "width": "container",
+  "height": 420,
+  "mark": "rect",
+  "encoding": {
+    "x": {
+  "field": "hour",
+  "type": "ordinal",
+  "title": "Hour of Day",
+  "sort": [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+    12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
+  ],
+  "axis": {
+    "labelAngle": 0,
+    "labelFontSize": 10,
+    "labelExpr": "datum.value < 10 ? '0' + datum.value : datum.value"
+  }
+},
+    "y": {
+      "field": "weekday",
+      "type": "ordinal",
+      "title": "Day of Week",
+      "sort": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "axis": { "labelFontSize": 13 }
+    },
+    "color": {
+      "field": "avg_pedestrians",
+      "type": "quantitative",
+      "title": "Average Pedestrians",
+      "scale": { "scheme": "inferno" },
+      "legend": { "title": "Avg Pedestrians", "orient": "right" }
+    },
+    "tooltip": [
+      { "field": "weekday", "title": "Day" },
+      { "field": "hour", "title": "Hour" },
+      { "field": "avg_pedestrians", "format": ",.0f", "title": "Avg Pedestrians" }
+    ]
+  }
+}

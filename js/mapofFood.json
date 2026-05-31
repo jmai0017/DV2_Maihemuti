@@ -1,0 +1,127 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+  "title": {
+    "text": "Restaurant Distribution Across Melbourne",
+    "subtitle": "Spatial distribution of food venues with emphasis on CBD concentration",
+    "fontSize": 22,
+    "subtitleFontSize": 13,
+    "anchor": "middle"
+  },
+
+  "width": 900,
+  "height": 700,
+  "background": "white",
+
+  "projection": {
+    "type": "mercator",
+    "center": [144.9631, -37.8136],
+    "scale": 650000
+  },
+
+  "params": [
+    {
+      "name": "year_selection",
+      "value": 2024,
+      "bind": {
+        "input": "range",
+        "min": 2007,
+        "max": 2024,
+        "step": 1,
+        "name": "Census Year: "
+      }
+    }
+  ],
+
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/anthwri/GeoJson-Data/master/suburb-2-vic.geojson",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#f7f7f7",
+        "stroke": "#c7c7c7",
+        "strokeWidth": 0.5
+      }
+    },
+
+    {
+      "data": {
+        "url": "data/restaurants.csv"
+      },
+
+      "transform": [
+        {
+          "filter": "datum['Census year'] == year_selection"
+        }
+      ],
+
+      "mark": {
+        "type": "circle",
+        "opacity": 0.65,
+        "stroke": "white",
+        "strokeWidth": 0.6
+      },
+
+      "encoding": {
+        "longitude": {
+          "field": "Longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "Latitude",
+          "type": "quantitative"
+        },
+
+        "size": {
+          "value": 45
+        },
+
+        "color": {
+          "field": "CLUE small area",
+          "type": "nominal",
+          "legend": {
+            "title": "CLUE Small Area",
+            "titleFontSize": 16,
+            "labelFontSize": 13,
+            "symbolSize": 140
+          }
+        },
+
+        "tooltip": [
+          {
+            "field": "Trading name",
+            "title": "Restaurant"
+          },
+          {
+            "field": "CLUE small area",
+            "title": "Area"
+          },
+          {
+            "field": "Industry (ANZSIC4) description",
+            "title": "Category"
+          },
+          {
+            "field": "Census year",
+            "title": "Year"
+          }
+        ]
+      }
+    }
+  ],
+
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "legend": {
+      "labelFontSize": 13,
+      "titleFontSize": 16
+    }
+  }
+}

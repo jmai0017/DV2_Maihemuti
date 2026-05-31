@@ -1,0 +1,47 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Late-Night Pedestrian Activity (6pm → 2am)",
+    "subtitle": "CBD stays vibrant well after midnight",
+    "fontSize": 18,
+    "anchor": "start"
+  },
+  "data": { "url": "data/pedestrian_latenight.csv" },
+  "width": "container",
+  "height": 420,
+  "mark": {
+    "type": "line",
+    "point": { "size": 65, "filled": true }
+  },
+  "encoding": {
+    "x": {
+      "field": "hour",
+      "type": "ordinal",
+      "title": "Hour",
+      "sort": [18,19,20,21,22,23,0,1,2],
+      "axis": {
+        "labelExpr": "datum.value == 0 ? '12am' : datum.value == 12 ? '12pm' : datum.value > 12 ? (datum.value - 12) + 'pm' : datum.value + 'am'",
+        "labelFontSize": 13,
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "field": "avg_pedestrians",
+      "type": "quantitative",
+      "title": "Average Pedestrians per Hour",
+      "axis": { "format": "," }
+    },
+    "color": {
+      "field": "weekday",
+      "type": "nominal",
+      "title": "Day of Week",
+      "scale": { "scheme": "category10" },
+      "legend": { "orient": "top", "columns": 4, "labelFontSize": 12 }
+    },
+    "tooltip": [
+      { "field": "weekday", "title": "Day" },
+      { "field": "hour", "title": "Hour" },
+      { "field": "avg_pedestrians", "format": ",.0f", "title": "Avg Pedestrians" }
+    ]
+  }
+}

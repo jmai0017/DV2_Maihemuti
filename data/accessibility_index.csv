@@ -1,0 +1,5 @@
+Area,Food_Venues,Train_Tram_Stops,Food_per_Stop,Accessibility_Score
+CBD (0-2km),59161,190,311.37,35572.6
+Inner (2-5km),6394,239,26.75,3931.9999999999995
+Middle (5-10km),274,532,0.52,377.20000000000005
+Outer (10-20km),0,756,0.0,302.40000000000003
